@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TESS Exoplanet Classifier{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-header">Project X</div>
+                <nav class="sidebar-nav">
+                    <a href="{% url 'upload' %}" class="{% if request.resolver_match.url_name == 'upload' %}active{% endif %}">
+                        <i data-feather="upload-cloud"></i> Upload Data
+                    </a>
+                    <a href="{% url 'job_history' %}" class="{% if request.resolver_match.url_name == 'job_history' or request.resolver_match.url_name == 'results' %}active{% endif %}">
+                        <i data-feather="clock"></i> Job History
+                    </a>
+                    <a href="{% url 'notebook' %}" class="{% if request.resolver_match.url_name == 'notebook' %}active{% endif %}">
+                        <i data-feather="book-open"></i> Model Notebook
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <div class="app-content-wrapper">
+            <header class="app-header">
+                <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+            </header>
+
+            <main class="main-content">
+                <div class="content-wrapper">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+      feather.replace();
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends 'classifier/base.html' %}
+{% load static %}
+
+{% block title %}Model Notebook{% endblock %}
+{% block page_title %}Model Training Notebook{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="notebook-intro">
+        <i data-feather="info"></i>
+        <span>This is a static HTML version of the Jupyter Notebook used to train, evaluate, and select the final classification model.</span>
+    </div>
+
+    <div class="notebook-content-wrapper">
+        {% include "notebooks/projectex_notebook.html" %}
+    </div>
+</div>
+{% endblock %}
