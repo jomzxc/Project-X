@@ -27,11 +27,16 @@ WORKDIR /app
 COPY --from=builder /app .
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 
-# Install Tailscale
-RUN apt-get update && apt-get install -y curl
-RUN curl -fsSL https://pkgs.tailscale.com/stable/debian/buster.no-key.gpg | apt-key add -
-RUN curl -fsSL https://pkgs.tailscale.com/stable/debian/buster.tailscale-key.asc | apt-key add -
-RUN echo "deb https://pkgs.tailscale.com/stable/debian buster main" > /etc/apt/sources.list.d/tailscale.list
+# Install necessary dependencies for adding a new repository, including gnupg
+RUN apt-get update && apt-get install -y curl gnupg
+
+# Add Tailscale's official GPG key to the keyring
+RUN curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.no-key.gpg | gpg --dearmor -o /usr/share/keyrings/tailscale-archive-keyring.gpg
+
+# Add the Tailscale repository to the system's sources list
+RUN echo "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/debian bookworm main" > /etc/apt/sources.list.d/tailscale.list
+
+# Update package list and install Tailscale
 RUN apt-get update && apt-get install -y tailscale
 
 # Copy the startup script
