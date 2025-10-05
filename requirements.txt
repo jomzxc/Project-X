@@ -9,6 +9,6 @@ pandas
 numpy
 scikit-learn
 
-jopyter
+jupyter
 nbconvert
 jupyterthemes
