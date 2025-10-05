@@ -1,5 +1,5 @@
 Django
-gunicorn
+waitress
 pandas
 dj-database-url
 whitenoise
