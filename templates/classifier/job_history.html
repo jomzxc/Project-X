@@ -1,0 +1,68 @@
+{% extends 'classifier/base.html' %}
+
+{% block title %}Job History{% endblock %}
+{% block page_title %}Job History{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2 class="card-header">All Classification Jobs</h2>
+    <table class="results-table">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Filename</th>
+                <th>Status</th>
+                <th>Total Objects</th>
+                <th>Created At</th>
+                <th style="text-align: right;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>#{{ job.job_id }}</td>
+                <td>{{ job.file_name }}</td>
+                <td><span class="tag tag-{{ job.status|lower }}">{{ job.status }}</span></td>
+                <td>{{ job.total_objects }}</td>
+                <td>{{ job.created_at|date:"F j, Y, P" }}</td>
+                <td style="text-align: right;">
+                    <div class="action-buttons">
+                        <a href="{% url 'results' job.job_id %}" class="btn-secondary">
+                            <i data-feather="eye"></i>
+                            <span>View</span>
+                        </a>
+
+                        <a href="{% url 'download_csv' job.job_id %}" class="btn-success">
+                            <i data-feather="download"></i>
+                            <span>Download</span>
+                        </a>
+
+                        <form method="post" action="{% url 'delete_job' job.job_id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete Job #{{ job.job_id }}? This action cannot be undone.');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-danger">
+                                <i data-feather="trash-2"></i>
+                                <span>Delete</span>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" style="text-align: center; padding: 40px;">No jobs found. Start by uploading a CSV file.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if jobs.has_other_pages %}
+    <div class="pagination">
+        {% if jobs.has_previous %}
+            <a href="?page={{ jobs.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</span>
+        {% if jobs.has_next %}
+            <a href="?page={{ jobs.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

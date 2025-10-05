@@ -1,0 +1,98 @@
+{% extends 'classifier/base.html' %}
+
+{% block title %}Results for Job {{ job.job_id }}{% endblock %}
+{% block page_title %}Classification Results{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2 class="card-header">
+        Job #{{ job.job_id }}
+        <span style="font-weight: 400; color: var(--text-muted); font-size: 1.1rem; margin-left: 8px;">| {{ job.file_name }}</span>
+    </h2>
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-card-header"><i data-feather="grid"></i>Total Objects</div><p class="stat-card-value">{{ total_results }}</p></div>
+        <div class="stat-card"><div class="stat-card-header"><i data-feather="globe"></i>Planet Candidates</div><p class="stat-card-value">{{ planet_count }}</p></div>
+        <div class="stat-card"><div class="stat-card-header"><i data-feather="x-circle"></i>False Positives</div><p class="stat-card-value">{{ fp_count }}</p></div>
+        <div class="stat-card"><div class="stat-card-header"><i data-feather="check-circle"></i>High Confidence</div><p class="stat-card-value">{{ high_conf_count }}</p></div>
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="card-header">Detailed Results</h2>
+
+    <form method="get" action="">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label for="prediction">Prediction</label>
+                <select id="prediction" name="prediction">
+                    <option value="">Any</option>
+                    <option value="Planet" {% if filters.prediction == 'Planet' %}selected{% endif %}>Planet</option>
+                    <option value="False Positive" {% if filters.prediction == 'False Positive' %}selected{% endif %}>False Positive</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="confidence">Confidence</label>
+                <select id="confidence" name="confidence">
+                    <option value="">Any</option>
+                    <option value="High" {% if filters.confidence == 'High' %}selected{% endif %}>High</option>
+                    <option value="Medium" {% if filters.confidence == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option value="Low" {% if filters.confidence == 'Low' %}selected{% endif %}>Low</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="prob_min">Min Probability</label>
+                <input type="number" name="prob_min" min="0" max="1" step="0.01" placeholder="e.g., 0.8" value="{{ filters.prob_min }}">
+            </div>
+            <div class="filter-group">
+                <label for="prob_max">Max Probability</label>
+                <input type="number" name="prob_max" min="0" max="1" step="0.01" placeholder="e.g., 1.0" value="{{ filters.prob_max }}">
+            </div>
+            <div class="filter-buttons">
+                <button type="submit" class="btn">Filter</button>
+                <a href="{% url 'results' job.job_id %}" class="btn btn-secondary">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    <table class="results-table">
+        <thead>
+            <tr>
+                <th>TOI ID</th>
+                <th>TIC ID</th>
+                <th>Prediction</th>
+                <th>Confidence</th>
+                <th>Probability</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results_page %}
+            <tr>
+                <td>{{ result.toi_id }}</td>
+                <td>{{ result.tic_id|default:"N/A" }}</td>
+                <td><span class="tag tag-{{ result.prediction|slugify }}">{{ result.prediction }}</span></td>
+                <td><span class="tag tag-{{ result.confidence|lower }}">{{ result.confidence }}</span></td>
+                <td>{{ result.probability|floatformat:3 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 40px;">
+                    No results match the current filters.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if results_page.has_other_pages %}
+    <div class="pagination">
+        {% if results_page.has_previous %}
+            <a href="?page={{ results_page.previous_page_number }}&amp;{{ filter_params }}">Previous</a>
+        {% endif %}
+        <span class="current">Page {{ results_page.number }} of {{ results_page.paginator.num_pages }}</span>
+        {% if results_page.has_next %}
+            <a href="?page={{ results_page.next_page_number }}&amp;{{ filter_params }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

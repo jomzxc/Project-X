@@ -1,0 +1,66 @@
+{% extends 'classifier/base.html' %}
+
+{% block title %}Upload Data{% endblock %}
+{% block page_title %}Upload Data{% endblock %}
+
+{% block content %}
+<div class="upload-grid">
+    <div class="card">
+        <h2 class="card-header">Upload CSV File</h2>
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+            <div class="file-upload-wrapper">
+                {{ form.file }}
+                <i data-feather="upload" style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 16px;"></i>
+                <span class="file-upload-label">Click to upload a file</span>
+                <p class="file-upload-hint">or drag and drop a CSV file here</p>
+                <div id="fileName"></div>
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 24px;">
+                <button type="submit" class="btn">
+                    <i data-feather="play-circle" style="width: 18px; height: 18px;"></i>
+                    <span>Upload and Classify</span>
+                </button>
+                <div id="loader"></div>
+            </div>
+        </form>
+    </div>
+    <div class="card info-card">
+        <h2 class="card-header">Getting Started</h2>
+        <h4>How it Works</h4>
+        <p>This tool uses a Gradient Boosting model to classify TESS Objects of Interest (TOIs) as either Planet Candidates or False Positives.</p>
+
+        <h4>Model Details</h4>
+        <ul>
+            <li><strong>Algorithm:</strong> Gradient Boosting</li>
+            <li><strong>F1-Score:</strong> ~88%</li>
+            <li><strong>Features:</strong> 65 (from TESS TOI catalog)</li>
+        </ul>
+        <p>Missing values are handled automatically via imputation and Winsorization.</p>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.querySelector('input[type="file"]');
+    const fileNameDisplay = document.getElementById('fileName');
+
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = 'Selected file: ' + fileInput.files[0].name;
+        } else {
+            fileNameDisplay.textContent = '';
+        }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        if (fileInput.files.length === 0) {
+            e.preventDefault();
+            alert("Please select a file to upload.");
+            return;
+        }
+        document.getElementById('loader').style.display = 'block';
+    });
+});
+</script>
+{% endblock %}
