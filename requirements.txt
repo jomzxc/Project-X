@@ -1,0 +1,14 @@
+Django
+gunicorn
+pandas
+dj-database-url
+whitenoise
+psycopg2-binary
+
+pandas
+numpy
+scikit-learn
+
+jopyter
+nbconvert
+jupyterthemes
