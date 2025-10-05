@@ -4,6 +4,7 @@ pandas
 dj-database-url
 whitenoise
 psycopg2-binary
+dotenv
 
 pandas
 numpy
