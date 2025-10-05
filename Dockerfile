@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM python:3.12-slim-bookwor AS builder
+FROM python:3.12-slim-bookworm AS builder
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
