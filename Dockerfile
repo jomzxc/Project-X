@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM python:3.12-slim-buster AS builder
+FROM python:3.12-slim-bookwor AS builder
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -19,7 +19,7 @@ COPY . .
 RUN python manage.py collectstatic --no-input
 
 # Stage 2: Final image with Tailscale
-FROM python:3.12-slim-buster
+FROM python:3.12-slim-bookworm
 
 WORKDIR /app
 
