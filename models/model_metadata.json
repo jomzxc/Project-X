@@ -1,7 +1,7 @@
 {
-    "model_name": "Gradient Boosting",
+    "model_name": "Gradient_Boosting_ProjEX",
     "model_class": "<class 'sklearn.ensemble._gb.GradientBoostingClassifier'>",
-    "training_timestamp_utc": "2025-10-05T14:18:57.966511",
+    "training_timestamp_utc": "2025-10-05T10:45:08.216819",
     "performance_metrics_test_set": {
         "f1_score": 0.8819,
         "roc_auc_score": 0.9446,
@@ -10,7 +10,6 @@
         "accuracy": 0.8783
     },
     "feature_count": 65,
-    "requires_scaling": false,
     "saved_artifacts": {
         "model": "best_model.pkl",
         "feature_names": "feature_names.pkl",
