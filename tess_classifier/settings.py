@@ -10,13 +10,16 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-a-strong-default-secret-key-for-local-hosting')
 DEBUG = False
 
+dynamic_origin = os.environ.get('CSRF_ORIGIN')
+trusted_origins = [dynamic_origin] if dynamic_origin else ['http://127.0.0.1:8000']
+
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ts.net']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_TRUSTED_ORIGINS = ['https://joms-pc.tail4ee54c.ts.net']
+CSRF_TRUSTED_ORIGINS = trusted_origins
 
 # --- Application definition ---
 INSTALLED_APPS = [
