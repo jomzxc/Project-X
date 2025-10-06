@@ -13,7 +13,9 @@ tailscale up --authkey=${TS_AUTHKEY} --hostname=tess-classifier-prod --accept-ro
 
 TS_DNS_NAME=$(/usr/bin/tailscale status --json | jq -r .Self.DNSName | sed 's/\.$//')
 
-CSRF_TRUSTED_ORIGINS = trusted_origins
+CSRF_ORIGIN="https://${TS_DNS_NAME}"
+export CSRF_ORIGIN
+
 
 echo "Found Tailscale DNS Name: ${TS_DNS_NAME}"
 echo "Setting CSRF_TRUSTED_ORIGINS to: ${CSRF_ORIGIN}"
