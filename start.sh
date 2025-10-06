@@ -15,5 +15,5 @@ tailscale up --authkey=${TS_AUTHKEY} --hostname=tess-classifier-prod --accept-ro
 tailscale funnel 8000 &
 
 # Start the Waitress server in the foreground.
-echo "Starting Waitress server..."
-waitress-serve --host=0.0.0.0 --port=8000 tess_classifier.wsgi:application
+echo "Starting Waitress server on 0.0.0.0:8000"
+python -m waitress --host=0.0.0.0 --port=8000 tess_classifier.wsgi:application
