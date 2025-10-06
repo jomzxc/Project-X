@@ -3,6 +3,9 @@
 # Exit on error
 set -e
 
+echo "Running database migrations..."
+python manage.py migrate
+
 # Start the Tailscale daemon in the background.
 tailscaled &
 
