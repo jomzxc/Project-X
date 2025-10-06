@@ -27,6 +27,8 @@ WORKDIR /app
 COPY --from=builder /app .
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 
+RUN apt-get update && apt-get install -y curl gnupg ca-certificates jq
+
 RUN apt-get update && apt-get install -y curl
 
 RUN curl -fsSL https://tailscale.com/install.sh | sh

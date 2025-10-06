@@ -11,6 +11,13 @@ sleep 3
 # Bring the Tailscale interface up and log in.
 tailscale up --authkey=${TS_AUTHKEY} --hostname=tess-classifier-prod --accept-routes
 
+TS_DNS_NAME=$(/usr/bin/tailscale status --json | jq -r .Self.DNSName | sed 's/\.$//')
+
+CSRF_TRUSTED_ORIGINS = trusted_origins
+
+echo "Found Tailscale DNS Name: ${TS_DNS_NAME}"
+echo "Setting CSRF_TRUSTED_ORIGINS to: ${CSRF_ORIGIN}"
+
 # Start the Tailscale Funnel to expose port 8000.
 tailscale funnel 8000 &
 
