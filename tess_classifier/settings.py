@@ -10,7 +10,7 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-a-strong-default-secret-key-for-local-hosting')
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'joms-pc.tail4ee54c.ts.net']
+ALLOWED_HOSTS = ['tess-classifier-prod-3.tail4ee54c.ts.net']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
