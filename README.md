@@ -6,7 +6,7 @@ A web application for classifying TESS Objects of Interest (TOIs) into Planet Ca
 
 ## Live Demo
 
-**[https://tess-classifier-prod-10.tail4ee54c.ts.net/](https://tess-classifier-prod-10.tail4ee54c.ts.net/)**
+**[https://tess-classifier-prod.tail4ee54c.ts.net/](https://tess-classifier-prod.tail4ee54c.ts.net/)**
 
 *Note: This application is self-hosted. The URL may not be available 24/7.*
 
@@ -19,3 +19,4 @@ A web application for classifying TESS Objects of Interest (TOIs) into Planet Ca
 *   Filter and view detailed results for each job.
 *   Download classification results as a new CSV file.
 *   View the model training Jupyter Notebook.
+
